@@ -10,6 +10,9 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var copy = require('gulp-copy');
 var jshint = require('gulp-jshint');
+var watch = require('gulp-watch');
+var less = require('gulp-less');
+var sass = require('gulp-sass');
 var del = require('del');
 
 // js minification
@@ -49,8 +52,32 @@ gulp.task('jshint', function() {
 });
 
 // watch
+gulp.task('watch', function() {
+	return gulp.src('src/**/*.js')
+		.pipe(watch('src/**/a.js'))
+		.pipe(gulp.dest('build'));
+});
+
 // less
+gulp.task('compile-less', function() {
+	return gulp.src('less/*.less')
+		.pipe(less({
+			paths: ['bootstrap-bower-folder']
+		}))
+		.pipe(gulp.dest('static/css'))
+});
+
 // sass
+gulp.task('compile-sass', function() {
+	return gulp.src('sass/*.scss')
+		.pipe(sass({
+			includePaths: ['bootstrap-bower-folder'],
+		   outputStyle: 'nested',
+		   errLogToConsole: true
+		}))
+		.pipe(gulp.dest('static/css'))
+});
+
 // es6, es7
 
 gulp.task('default', function() {

@@ -3,7 +3,7 @@
         return a * b;
     };
 
-    var value = multiply(3,)
+    var value = multiply(3, 8);
     // final value
     console.log(value);
 
