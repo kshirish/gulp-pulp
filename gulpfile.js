@@ -1,6 +1,7 @@
-// Sweet recepies: https://github.com/gulpjs/gulp/tree/master/docs/recipes
-// Source: http://gulpjs.com/plugins/
-//
+////////////////////////////////////////////////////////////////////////////
+// Sweet recepies: https://github.com/gulpjs/gulp/tree/master/docs/recipes//
+// Source: http://gulpjs.com/plugins////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
 
 var gulp = require('gulp');
 var jsmin = require('gulp-jsmin');
@@ -13,6 +14,10 @@ var jshint = require('gulp-jshint');
 var watch = require('gulp-watch');
 var less = require('gulp-less');
 var sass = require('gulp-sass');
+var babel = require('gulp-babel');
+var htmlmin = require('gulp-htmlmin');
+var csso = require('gulp-csso');
+var rev = require('gulp-rev');
 var del = require('del');
 
 // js minification
@@ -28,8 +33,8 @@ gulp.task('concat-js', function() {
     return gulp.src('dist/**/*js')
         .pipe(sourcemaps.init())
         .pipe(concat('all.js', {newLine: '\n\n'}))
-        .pipe(sourcemaps.write( ))
         .pipe(uglify())
+		.pipe(sourcemaps.write( ))
         .pipe(gulp.dest('dist/'));
 });
 
@@ -52,9 +57,14 @@ gulp.task('jshint', function() {
 });
 
 // watch
+// Note: Watch waits for end, so emitting end in error handler solves most of the cases.
 gulp.task('watch', function() {
 	return gulp.src('src/**/*.js')
 		.pipe(watch('src/**/a.js'))
+		// .on('error', function handleError(err) {
+		// 	console.log(err.toString());
+		// 	this.emit('end');
+		// })
 		.pipe(gulp.dest('build'));
 });
 
@@ -79,6 +89,43 @@ gulp.task('compile-sass', function() {
 });
 
 // es6, es7
+gulp.task('compile-es6', function() {
+	return gulp.src('es6/**/*.js')
+		.pipe(sourcemaps.init())
+		.pipe(babel({
+			presets: ['es2015'],
+			plugins: ['transform-runtime']	// for generators
+		}))
+		.pipe(concat('all.js'))
+		.pipe(uglify())
+		.pipe(sourcemaps.write('.'))		// creates seperate sourcemap file
+		.pipe(gulp.dest('dist'));
+});
+
+// htmlmin
+gulp.task('minify-html', function() {
+	return gulp.src('views/*.html')
+		.pipe(htmlmin({collapseWhitespace: true}))
+		.pipe(gulp.dest('dist'));
+})
+
+// cssmin
+gulp.task('minify-css', function() {
+	return gulp.src('static/css/*.css')
+		.pipe(csso({
+			restructure: false,			// for development purpose
+            sourceMap: true,
+            debug: true
+		}))
+		.pipe(gulp.dest('dist'));
+});
+
+// assets versioning
+gulp.task('versioning', function() {
+	return gulp.src('dist/*')
+		.pipe(rev())
+		.pipe(gulp.dest('dist'));
+});
 
 gulp.task('default', function() {
     // default task be here
