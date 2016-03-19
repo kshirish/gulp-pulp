@@ -1,0 +1,35 @@
+{
+  "name": "gulp-pulp",
+  "version": "1.0.0",
+  "description": "Most used gulp modules at one place",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kshirish/gulp-pulp.git"
+  },
+  "keywords": [
+    "gulp"
+  ],
+  "author": "kshirish <kisleyshirish25@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kshirish/gulp-pulp/issues"
+  },
+  "homepage": "https://github.com/kshirish/gulp-pulp#readme",
+  "devDependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-copy": "0.0.2",
+    "gulp-jshint": "^2.0.0",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.5.3",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0"
+  }
+}
